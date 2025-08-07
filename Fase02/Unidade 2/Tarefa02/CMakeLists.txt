@@ -28,7 +28,10 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 # configure wifi and mqtt settings
 set(WIFI_SSID "Marcelo Alves")
 set(WIFI_PASSWORD "12345678")
+
 set(MQTT_SERVER_IP "192.168.1.115")
+set(MQTT_USERNAME "marcelo")
+set(MQTT_PASSWORD "12345678")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
@@ -74,15 +77,7 @@ target_compile_definitions(Tarefa02 PRIVATE
     WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
     MQTT_SERVER=\"${MQTT_SERVER}\"
     )
-if (EXISTS "${MQTT_CERT_PATH}/${MQTT_CERT_INC}")
-    target_compile_definitions(Tarefa02 PRIVATE
-        MQTT_CERT_INC=\"${MQTT_CERT_INC}\" # contains the tls certificates for MQTT_SERVER needed by the client
-        ALTCP_MBEDTLS_AUTHMODE=MBEDTLS_SSL_VERIFY_REQUIRED
-        )
-    target_include_directories(Tarefa02 PRIVATE
-        ${MQTT_CERT_PATH}
-        )
-endif()
+
 if (MQTT_USERNAME AND MQTT_PASSWORD)
     target_compile_definitions(Tarefa02 PRIVATE
         MQTT_USERNAME=\"${MQTT_USERNAME}\"
